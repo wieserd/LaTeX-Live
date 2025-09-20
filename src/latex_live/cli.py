@@ -134,6 +134,22 @@ def run_interactive_menu():
         print("\nGoodbye!")
 
 def main():
+    # Display banner
+    banner_path = pathlib.Path(__file__).parent / "banner.txt"
+    if banner_path.exists():
+        with open(banner_path, "r") as f:
+            banner_content = f.read()
+            GREY = "\x1b[90m"  # ANSI escape code for grey
+            RESET = "\x1b[0m"  # ANSI escape code to reset color
+
+            colored_banner = ""
+            for char in banner_content:
+                if char == '█':
+                    colored_banner += RESET + char + GREY # Reset to default, add char, then back to grey
+                else:
+                    colored_banner += char
+            print(GREY + colored_banner + RESET) # Apply grey to the whole banner, then reset at the end
+
     parser = argparse.ArgumentParser(description="A local live-previewer for LaTeX.")
     parser.add_argument("--new", dest="project_name", help="Create a new, self-contained project.")
     parser.add_argument("--template", default="article", choices=["article", "report"], help="Specify a template for the new project.")
